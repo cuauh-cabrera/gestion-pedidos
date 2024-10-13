@@ -2,11 +2,13 @@ package com.test.pedidos.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.test.pedidos.exceptions.NoContentException;
+import com.test.pedidos.exceptions.NotFoundException;
 import com.test.pedidos.model.ClienteResponse;
 import com.test.pedidos.service.IClienteService;
 
@@ -25,5 +27,12 @@ public class ClienteController {
 	public ClienteResponse readAll() throws NoContentException {
 		return clienteService.readAll();
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/clientes/{id}")
+	public ClienteResponse readById(@PathVariable Long id) throws NotFoundException{
+		return clienteService.readById(id);
+	}
+	
 
 }
