@@ -2,6 +2,8 @@ package com.test.pedidos.model;
 
 import java.util.List;
 
+import com.test.pedidos.entity.Cliente;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

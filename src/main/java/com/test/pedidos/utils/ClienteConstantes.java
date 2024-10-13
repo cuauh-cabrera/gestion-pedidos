@@ -1,6 +1,7 @@
 package com.test.pedidos.utils;
 
 public class ClienteConstantes {
+	public static final Boolean FILTER = false;
 	public static final String REQUIRED_NOMBRE = "El campo nombre es requerido";
 	public static final String REQUIRED_APELLIDO = "El campo apellido paterno es obligatorio";
 	public static final String REQUIRED_EMAIL = "El campo email es obligatorio";
