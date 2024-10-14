@@ -17,7 +17,7 @@ public interface IClienteService {
 	
 	public ClienteResponseSave deleteById(Long id) throws NotFoundException;
 	
-	public ClienteResponse findByEmail(String email); 
+	public ClienteResponse findByEmail(String email) throws NotFoundException; 
 	
 	
 	

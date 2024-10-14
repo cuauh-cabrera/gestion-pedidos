@@ -169,9 +169,31 @@ public class ClienteService implements IClienteService{
 	}
 
 	@Override
-	public ClienteResponse findByEmail(String email) {
-		
-		return null;
+	public ClienteResponse findByEmail(String email) throws NotFoundException {
+		try {
+			Optional<Cliente> clOptional = clienteRepository.findClienteByEmailUsuarioAndIsActiveTrue(email);
+
+			if (clOptional.isEmpty() || clOptional.get().getIsActive() == ClienteConstantes.FILTER
+					|| clOptional.get().getIsActive() == null) {
+				log.error(ClienteConstantes.SERVER_ERROR_LOG);
+				throw new NotFoundException(ClienteConstantes.NOT_FOUND_MSG);
+			} else {
+				Cliente cliente = clOptional.get();
+				List<ClienteDTO> clienteDTOs = Stream.of(cliente).map(c -> {
+					return mapperRead.map(cliente);
+				}).toList();
+				ClienteResponse clienteResponse = new ClienteResponse();
+				clienteResponse.setMensaje(ClienteConstantes.SUCCESS_MESSAGE);
+				clienteResponse.setCodigo(200);
+				clienteResponse.setClientes(clienteDTOs);
+				log.info(ClienteConstantes.SUCCESS_LOG);
+				return clienteResponse;
+			}
+
+		} catch (ServerErrorException e) {
+			log.error(ClienteConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(ClienteConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 }
