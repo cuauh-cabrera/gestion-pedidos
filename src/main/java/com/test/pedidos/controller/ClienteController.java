@@ -1,6 +1,7 @@
 package com.test.pedidos.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,12 @@ public class ClienteController {
 		clienteDTO.setId(id);
 		return clienteService.update(id, clienteDTO);
 	} 
+	
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/usuarios/{id}")
+	public ClienteResponseSave deleteById(@PathVariable Long id) throws NotFoundException {
+		return clienteService.deleteById(id);
+	}
 	
 
 }

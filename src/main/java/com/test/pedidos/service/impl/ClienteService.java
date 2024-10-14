@@ -140,12 +140,37 @@ public class ClienteService implements IClienteService{
 	}
 
 	@Override
-	public ClienteResponseSave deleteById(Long id) {
-		return null;
+	@Transactional
+	public ClienteResponseSave deleteById(Long id) throws NotFoundException {
+		try {
+			Optional<Cliente> clOptional = clienteRepository.findById(id);
+			
+			if (clOptional.isEmpty() || clOptional.get()
+					.getIsActive()==ClienteConstantes.FILTER || clOptional.get()
+					.getIsActive()==null) {
+				log.error(ClienteConstantes.NOT_FOUND_LOG);
+				throw new NotFoundException(ClienteConstantes.NOT_FOUND_MSG);	
+			} else {
+				Cliente cliente = clOptional.get();
+				cliente.setIsActive(ClienteConstantes.FILTER);
+				clienteRepository.save(cliente);
+				ClienteResponseSave clienteResponseSave = new ClienteResponseSave();
+				clienteResponseSave.setEmailUsuario(cliente.getEmailUsuario());
+				clienteResponseSave.setCodigo(200);
+				clienteResponseSave.setMensaje(ClienteConstantes.DELETED_MSG);
+				log.info(ClienteConstantes.SUCCESS_LOG);
+				return clienteResponseSave;
+			}
+			
+		} catch (ServerErrorException e) {
+			log.error(ClienteConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(ClienteConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override
 	public ClienteResponse findByEmail(String email) {
+		
 		return null;
 	}
 
