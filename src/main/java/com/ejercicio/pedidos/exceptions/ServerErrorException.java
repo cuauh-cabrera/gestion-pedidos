@@ -1,4 +1,4 @@
-package com.test.pedidos.exceptions;
+package com.ejercicio.pedidos.exceptions;
 
 import lombok.Data;
 import lombok.Getter;

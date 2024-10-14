@@ -1,17 +1,14 @@
-package com.test.pedidos.model;
-
-import java.util.List;
+package com.ejercicio.pedidos.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteResponse {
+public class ClienteResponseSave {
+	private String emailUsuario;
 	private String mensaje;
 	private int codigo;
-	private List<ClienteDTO> clientes;
 }

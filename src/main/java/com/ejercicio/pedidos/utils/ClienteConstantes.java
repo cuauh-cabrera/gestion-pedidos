@@ -1,4 +1,4 @@
-package com.test.pedidos.utils;
+package com.ejercicio.pedidos.utils;
 
 public class ClienteConstantes {
 	public static final Boolean FILTER = false;

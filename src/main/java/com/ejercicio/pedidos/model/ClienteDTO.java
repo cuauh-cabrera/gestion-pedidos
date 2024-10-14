@@ -1,4 +1,4 @@
-package com.test.pedidos.model;
+package com.ejercicio.pedidos.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

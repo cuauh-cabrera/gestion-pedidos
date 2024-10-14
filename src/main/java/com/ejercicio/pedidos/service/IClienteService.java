@@ -1,10 +1,10 @@
-package com.test.pedidos.service;
+package com.ejercicio.pedidos.service;
 
-import com.test.pedidos.exceptions.NoContentException;
-import com.test.pedidos.exceptions.NotFoundException;
-import com.test.pedidos.model.ClienteDTO;
-import com.test.pedidos.model.ClienteResponse;
-import com.test.pedidos.model.ClienteResponseSave;
+import com.ejercicio.pedidos.exceptions.NoContentException;
+import com.ejercicio.pedidos.exceptions.NotFoundException;
+import com.ejercicio.pedidos.model.ClienteDTO;
+import com.ejercicio.pedidos.model.ClienteResponse;
+import com.ejercicio.pedidos.model.ClienteResponseSave;
 
 public interface IClienteService {
 	public ClienteResponse readAll() throws NoContentException;
