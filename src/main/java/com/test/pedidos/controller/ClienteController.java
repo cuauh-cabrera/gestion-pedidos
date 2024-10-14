@@ -3,14 +3,21 @@ package com.test.pedidos.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.test.pedidos.exceptions.NoContentException;
 import com.test.pedidos.exceptions.NotFoundException;
+import com.test.pedidos.model.ClienteDTO;
 import com.test.pedidos.model.ClienteResponse;
+import com.test.pedidos.model.ClienteResponseSave;
 import com.test.pedidos.service.IClienteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -33,6 +40,19 @@ public class ClienteController {
 	public ClienteResponse readById(@PathVariable Long id) throws NotFoundException{
 		return clienteService.readById(id);
 	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping("/usuarios")
+	public ClienteResponseSave insert(@RequestBody @Valid ClienteDTO clienteDTO) {
+		return clienteService.insert(clienteDTO);
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@PutMapping("/usuarios/{id}")
+	public ClienteResponseSave update(@PathVariable Long id, @RequestBody @Valid ClienteDTO clienteDTO) throws NotFoundException {
+		clienteDTO.setId(id);
+		return clienteService.update(id, clienteDTO);
+	} 
 	
 
 }

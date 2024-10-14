@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.test.pedidos.entity.Cliente;
 import com.test.pedidos.exceptions.NoContentException;
 import com.test.pedidos.exceptions.NotFoundException;
 import com.test.pedidos.exceptions.ServerErrorException;
+import com.test.pedidos.mapper.impl.ClienteDTOInToCliente;
 import com.test.pedidos.mapper.impl.ClienteInToClienteDTO;
 import com.test.pedidos.model.ClienteDTO;
 import com.test.pedidos.model.ClienteResponse;
@@ -27,10 +29,12 @@ public class ClienteService implements IClienteService{
 	
 	private final ClienteRepository clienteRepository;
 	private final ClienteInToClienteDTO mapperRead;
+	private final ClienteDTOInToCliente mapperInsert;
 	
-	public ClienteService(ClienteRepository clienteRepository, ClienteInToClienteDTO mapperRead) {
+	public ClienteService(ClienteRepository clienteRepository, ClienteInToClienteDTO mapperRead, ClienteDTOInToCliente mapperInsert) {
 		this.clienteRepository = clienteRepository;
 		this.mapperRead = mapperRead;
+		this.mapperInsert = mapperInsert;
 	}
 
 
@@ -45,8 +49,7 @@ public class ClienteService implements IClienteService{
 				throw new NoContentException(ClienteConstantes.NO_CONTENT_MSG);
 			} else {
 				List<ClienteDTO> cListDtos = clienteList.stream().map(cliente -> {
-					ClienteDTO clienteDTO = mapperRead.map(cliente);
-					return clienteDTO;
+					return mapperRead.map(cliente);
 				}).toList();
 				ClienteResponse clienteResponse = new ClienteResponse();
 				clienteResponse.setMensaje(ClienteConstantes.SUCCESS_MESSAGE);
@@ -73,8 +76,7 @@ public class ClienteService implements IClienteService{
 			} else {
 				Cliente cliente = clOptional.get();
 				List<ClienteDTO> clienteDTO = Stream.of(cliente).map(cl -> {
-					ClienteDTO clDTO = mapperRead.map(cl);
-					return clDTO;
+					return mapperRead.map(cl);
 				}).toList();
 				ClienteResponse clienteResponse = new ClienteResponse();
 				clienteResponse.setMensaje(ClienteConstantes.SUCCESS_MESSAGE);
@@ -91,13 +93,50 @@ public class ClienteService implements IClienteService{
 	}
 
 	@Override
+	@Transactional
 	public ClienteResponseSave insert(ClienteDTO clienteDTO) {
-		return null;
+		try {
+			 Cliente cliente = mapperInsert.map(clienteDTO);
+			 clienteRepository.save(cliente);
+			 ClienteResponseSave clienteResponseSave = new ClienteResponseSave();
+			 clienteResponseSave.setEmailUsuario(cliente.getEmailUsuario());
+			 clienteResponseSave.setCodigo(201);
+			 clienteResponseSave.setMensaje(ClienteConstantes.CREATED_MSG);
+			 log.info(ClienteConstantes.SUCCESS_LOG);
+			 return clienteResponseSave;	
+				
+		} catch (ServerErrorException e) {
+			log.error(ClienteConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(ClienteConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override
-	public ClienteResponseSave update(Long id, ClienteDTO clienteDTO) {
-		return null;
+	@Transactional
+	public ClienteResponseSave update(Long id, ClienteDTO clienteDTO) throws NotFoundException {
+		try {
+			Optional<Cliente> clOptional = clienteRepository.findById(id);
+			
+			if (clOptional.isEmpty() || clOptional.get()
+					.getIsActive()==ClienteConstantes.FILTER || clOptional.get()
+					.getIsActive()==null) {
+				log.error(ClienteConstantes.NOT_FOUND_LOG);
+				throw new NotFoundException(ClienteConstantes.NOT_FOUND_MSG);
+			} else {
+				Cliente cliente = mapperInsert.map(clienteDTO);
+				clienteRepository.save(cliente);
+				ClienteResponseSave clienteResponseSave = new ClienteResponseSave();
+				clienteResponseSave.setEmailUsuario(cliente.getEmailUsuario());
+				clienteResponseSave.setMensaje(ClienteConstantes.UPDATED_MSG);
+				clienteResponseSave.setCodigo(201);
+				log.info(ClienteConstantes.CREATED_MSG);
+				return clienteResponseSave;				
+			}
+			
+		} catch (ServerErrorException e) {
+			log.error(ClienteConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(ClienteConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override

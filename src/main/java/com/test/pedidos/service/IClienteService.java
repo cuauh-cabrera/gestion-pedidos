@@ -13,7 +13,7 @@ public interface IClienteService {
 	
 	public ClienteResponseSave insert(ClienteDTO clienteDTO);
 	
-	public ClienteResponseSave update(Long id, ClienteDTO clienteDTO);
+	public ClienteResponseSave update(Long id, ClienteDTO clienteDTO) throws NotFoundException;
 	
 	public ClienteResponseSave deleteById(Long id);
 	

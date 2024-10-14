@@ -17,6 +17,7 @@ public class ClienteInToClienteDTO implements IMapper<Cliente, ClienteDTO>{
 		clienteDTO.setApellidoPaterno(cliente.getApellidoPaterno());
 		clienteDTO.setApellidoMaterno(cliente.getApellidoMaterno());
 		clienteDTO.setEmailUsuario(cliente.getEmailUsuario());
+		clienteDTO.setDireccionEnvio(cliente.getDireccionEnvio());
 		return clienteDTO;
 	}
 	
