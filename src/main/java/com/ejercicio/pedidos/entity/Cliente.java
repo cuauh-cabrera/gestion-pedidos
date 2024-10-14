@@ -1,8 +1,8 @@
-package com.test.pedidos.entity;
+package com.ejercicio.pedidos.entity;
 
 import java.time.LocalDate;
 
-import com.test.pedidos.utils.ClienteConstantes;
+import com.ejercicio.pedidos.utils.ClienteConstantes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

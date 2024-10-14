@@ -1,10 +1,10 @@
-package com.test.pedidos.mapper.impl;
+package com.ejercicio.pedidos.mapper.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.test.pedidos.entity.Cliente;
-import com.test.pedidos.mapper.IMapper;
-import com.test.pedidos.model.ClienteDTO;
+import com.ejercicio.pedidos.entity.Cliente;
+import com.ejercicio.pedidos.mapper.IMapper;
+import com.ejercicio.pedidos.model.ClienteDTO;
 
 @Component
 public class ClienteInToClienteDTO implements IMapper<Cliente, ClienteDTO>{

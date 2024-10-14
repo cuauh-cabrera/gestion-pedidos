@@ -1,4 +1,4 @@
-package com.test.pedidos.controller;
+package com.ejercicio.pedidos.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.test.pedidos.exceptions.NoContentException;
-import com.test.pedidos.exceptions.NotFoundException;
-import com.test.pedidos.model.ClienteDTO;
-import com.test.pedidos.model.ClienteResponse;
-import com.test.pedidos.model.ClienteResponseSave;
-import com.test.pedidos.service.IClienteService;
+import com.ejercicio.pedidos.exceptions.NoContentException;
+import com.ejercicio.pedidos.exceptions.NotFoundException;
+import com.ejercicio.pedidos.model.ClienteDTO;
+import com.ejercicio.pedidos.model.ClienteResponse;
+import com.ejercicio.pedidos.model.ClienteResponseSave;
+import com.ejercicio.pedidos.service.IClienteService;
 
 import jakarta.validation.Valid;
 

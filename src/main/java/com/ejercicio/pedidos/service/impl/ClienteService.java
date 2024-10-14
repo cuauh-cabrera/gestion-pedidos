@@ -1,4 +1,4 @@
-package com.test.pedidos.service.impl;
+package com.ejercicio.pedidos.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,18 +7,18 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.test.pedidos.entity.Cliente;
-import com.test.pedidos.exceptions.NoContentException;
-import com.test.pedidos.exceptions.NotFoundException;
-import com.test.pedidos.exceptions.ServerErrorException;
-import com.test.pedidos.mapper.impl.ClienteDTOInToCliente;
-import com.test.pedidos.mapper.impl.ClienteInToClienteDTO;
-import com.test.pedidos.model.ClienteDTO;
-import com.test.pedidos.model.ClienteResponse;
-import com.test.pedidos.model.ClienteResponseSave;
-import com.test.pedidos.repository.ClienteRepository;
-import com.test.pedidos.service.IClienteService;
-import com.test.pedidos.utils.ClienteConstantes;
+import com.ejercicio.pedidos.entity.Cliente;
+import com.ejercicio.pedidos.exceptions.NoContentException;
+import com.ejercicio.pedidos.exceptions.NotFoundException;
+import com.ejercicio.pedidos.exceptions.ServerErrorException;
+import com.ejercicio.pedidos.mapper.impl.ClienteDTOInToCliente;
+import com.ejercicio.pedidos.mapper.impl.ClienteInToClienteDTO;
+import com.ejercicio.pedidos.model.ClienteDTO;
+import com.ejercicio.pedidos.model.ClienteResponse;
+import com.ejercicio.pedidos.model.ClienteResponseSave;
+import com.ejercicio.pedidos.repository.ClienteRepository;
+import com.ejercicio.pedidos.service.IClienteService;
+import com.ejercicio.pedidos.utils.ClienteConstantes;
 
 import lombok.extern.slf4j.Slf4j;
 
