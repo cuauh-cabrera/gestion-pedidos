@@ -18,9 +18,7 @@ public class ClienteConstantes {
     public static final String NO_CONTENT_MSG = "La consulta no arrojo ningun resultado";
     public static final String NOT_FOUND_LOG = "No encontrado";
     public static final String NOT_FOUND_MSG = "No fue posible encontrar el Cliente solicitado";
-	
-	
-
-	
+    
+    private ClienteConstantes() {}
 	
 }
