@@ -17,9 +17,9 @@ public interface IPedidoService {
 	
 	public PedidoResponseSave update(Long id, PedidoDTO pedidoDTO) throws NotFoundException;
 	
-	public PedidoResponseSave deleteById(Long id);
+	public PedidoResponseSave deleteById(Long id) throws NotFoundException;
 	
-	public PedidoResponse readByIdCliente(Long idCliente);
+	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException;
 	
 	public PedidoResponse readByemailCliente(String emailCliente);
 	

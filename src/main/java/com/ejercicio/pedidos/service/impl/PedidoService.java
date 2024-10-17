@@ -30,7 +30,9 @@ public class PedidoService implements IPedidoService {
 	private final PedidoInToPedidoDTO mapperRead;
 	private final PedidoDTOInToPedido mapperSave;
 	
-	public PedidoService(PedidoRepository pedidoRepository, PedidoInToPedidoDTO mapperRead, PedidoDTOInToPedido mapperSave) {
+	public PedidoService(PedidoRepository pedidoRepository, 
+			PedidoInToPedidoDTO mapperRead, 
+			PedidoDTOInToPedido mapperSave) {
 		this.pedidoRepository = pedidoRepository;
 		this.mapperRead = mapperRead;
 		this.mapperSave = mapperSave;
@@ -135,15 +137,55 @@ public class PedidoService implements IPedidoService {
 	}
 
 	@Override
-	public PedidoResponseSave deleteById(Long id) {
-		// TODO Borrar pedido By id
-		return null;
+	public PedidoResponseSave deleteById(Long id) throws NotFoundException {
+		try {
+			Optional<Pedido> pedidoOptional = pedidoRepository.findByIdAndIsActiveTrue(id);
+
+			if (pedidoOptional.isEmpty() || pedidoOptional.get().getIsActive() == null) {
+				log.error(PedidoConstantes.NOT_FOUND_LOG);
+				throw new NotFoundException(PedidoConstantes.NOT_FOUND_MSG);
+			} else {
+				Pedido pedido = pedidoOptional.get();
+				pedido.setIsActive(PedidoConstantes.FILTER);
+				pedidoRepository.save(pedido);
+				PedidoResponseSave pedidoResponseSave = new PedidoResponseSave();
+				pedidoResponseSave.setId(pedido.getId());
+				pedidoResponseSave.setCodigo(200);
+				pedidoResponseSave.setMensaje(PedidoConstantes.DELETED_MSG);
+				log.info(PedidoConstantes.DELETED_MSG);
+				return pedidoResponseSave;
+			}
+
+		} catch (ServerErrorException e) {
+			log.error(PedidoConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override
-	public PedidoResponse readByIdCliente(Long idCliente) {
-		// TODO Pedido By id de cliente
-		return null;
+	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException {
+		try {
+			Optional<Pedido> pedidOptional = pedidoRepository.findByIdClienteAndIsActiveTrue(idCliente);
+
+			if (pedidOptional.isEmpty() || pedidOptional.get().getIsActive() == null) {
+				log.error(PedidoConstantes.NOT_FOUND_LOG);
+				throw new NotFoundException(PedidoConstantes.NOT_FOUND_MSG);
+			} else {
+				Pedido pedido = pedidOptional.get();
+				List<PedidoDTO> pedidoDTOs = Stream.of(pedido).map(p -> {
+					return mapperRead.map(pedido);
+				}).toList();
+				PedidoResponse pedidoResponse = new PedidoResponse();
+				pedidoResponse.setMensaje(PedidoConstantes.SUCCESS_MESSAGE);
+				pedidoResponse.setCodigo(200);
+				pedidoResponse.setPedidos(pedidoDTOs);
+				return pedidoResponse;
+			}
+
+		} catch (ServerErrorException e) {
+			log.error(PedidoConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override
