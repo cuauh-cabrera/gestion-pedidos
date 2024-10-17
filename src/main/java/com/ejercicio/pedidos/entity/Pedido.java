@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,36 +31,36 @@ public class Pedido {
 	@Column(name = "id")
 	private Long id;
 	
-	@NotBlank(message = PedidoConstantes.REQUIRED_CODIGO )
+	@NotNull(message = PedidoConstantes.REQUIRED_CODIGO )
 	@Column(name = "codigo_producto")
 	private Long codidoProducto;
 	
-	@NotBlank(message = PedidoConstantes.REQUIRED_EMAIL)
+	@NotNull(message = PedidoConstantes.REQUIRED_EMAIL)
 	@Column(name = "email_cliente")
 	private String emailCliente;
 	
-	@NotBlank(message = PedidoConstantes.REQUIRED_ID_CLIENTE)
+	@NotNull(message = PedidoConstantes.REQUIRED_ID_CLIENTE)
 	@Column(name = "id_cliente")
 	private Long idCliente;
 	
 	
-	@NotBlank(message = PedidoConstantes.REQUIRED_CANTIDAD)
+	@NotNull(message = PedidoConstantes.REQUIRED_CANTIDAD)
 	@Column(name = "cantidad")
 	private int cantidad;
 	
-	@NotBlank(message = PedidoConstantes.REQUIRED_PRECIO)
+	@NotNull(message = PedidoConstantes.REQUIRED_PRECIO)
 	@Column(name = "precio")
 	private Double precio;
 	
-	@NotBlank
+	@NotNull
 	@Column(name = "fecha_creacion",updatable = false)
 	private LocalDate fechaCreacion;
 	
-	@NotBlank
+	@NotNull
 	@Column(name = "fecha_modificacion")
 	private LocalDate fechaModificacion;
 	
-	@NotBlank
+	@NotNull
 	@Column(name = "is_active")
 	private Boolean isActive;
 	

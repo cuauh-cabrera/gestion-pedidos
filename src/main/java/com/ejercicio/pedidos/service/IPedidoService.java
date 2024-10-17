@@ -15,7 +15,7 @@ public interface IPedidoService {
 	
 	public PedidoResponseSave insert(PedidoDTO pedidoDTO);
 	
-	public PedidoResponseSave update(PedidoDTO pedidoDTO);
+	public PedidoResponseSave update(Long id, PedidoDTO pedidoDTO) throws NotFoundException;
 	
 	public PedidoResponseSave deleteById(Long id);
 	
