@@ -20,6 +20,12 @@ public class PedidoConstantes {
     public static final String NO_CONTENT_MSG = "La consulta no arrojo ningun resultado";
     public static final String NOT_FOUND_LOG = "No encontrado";
     public static final String NOT_FOUND_MSG = "No fue posible encontrar el Pedido solicitado";
+    public static final String DATE_NOT_FOUND_LOG = "Fecha no encontrada";
+    public static final String DATE_NOT_FOUND_MSG = "No se enontraron pedidos creados en las fechas consultadas";
+    public static final String CLIENTE_IF_NOT_FOUND_LOG = "Id de Cliente no encontrado";
+    public static final String CLIENTE_ID_NOT_FOUND_MSG = "No se enontraron pedidos asociados al Id de Cliente consultado";
+    public static final String EMAIL_CLIENTE_NOT_FOUND_LOG = "Email de Cliente no encontrado";
+    public static final String EMAIL_CLIENTE_NOT_FOUND_MSG = "No se enontraron pedidos asociados al email del Cliente consultado";
     
 	private PedidoConstantes() {}
 }

@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,10 +56,12 @@ public class Pedido {
 	
 	@NotNull
 	@Column(name = "fecha_creacion",updatable = false)
+	@Temporal(TemporalType.DATE)
 	private LocalDate fechaCreacion;
 	
 	@NotNull
 	@Column(name = "fecha_modificacion")
+	@Temporal(TemporalType.DATE)
 	private LocalDate fechaModificacion;
 	
 	@NotNull

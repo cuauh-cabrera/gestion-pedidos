@@ -1,5 +1,9 @@
 package com.ejercicio.pedidos.controller;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +72,18 @@ public class PedidoController {
 	@GetMapping("/pedidos/id_cliente")
 	public PedidoResponse readByIdCliente(@RequestParam Long idCliente) throws NotFoundException {
 		return pedidoService.readByIdCliente(idCliente);
+	}
+	
+	@GetMapping("/pedidos/email")
+	public PedidoResponse readByEmailCliente(@RequestParam String emailCliente) throws NotFoundException {
+		return pedidoService.readByemailCliente(emailCliente);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/pedidos/fecha_creacion")
+	public PedidoResponse readByFechaCreacion(
+			@RequestParam  @DateTimeFormat(iso = ISO.DATE)   LocalDate  fechaCreacion) throws NotFoundException {
+		return pedidoService.readByFechaCreacion(fechaCreacion);
 	}
 
 }

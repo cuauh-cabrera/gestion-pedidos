@@ -1,5 +1,6 @@
 package com.ejercicio.pedidos.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +14,8 @@ import java.time.LocalDate;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 	Optional<Pedido>findByIdAndIsActiveTrue(Long id);
-	Optional<Pedido> findByEmailClienteAndIsActiveTrue(String email);
-	Optional<Pedido>findByIdClienteAndIsActiveTrue(Long id);
-	Optional<Pedido>findByFechaCreacionAndIsActiveTrue(LocalDate fecha);
+	List<Pedido> findByEmailClienteAndIsActiveTrue(String email);
+	List<Pedido>findByIdClienteAndIsActiveTrue(Long id);
+	List<Pedido> findByFechaCreacionAndIsActiveTrue(LocalDate fecha);
 
 }

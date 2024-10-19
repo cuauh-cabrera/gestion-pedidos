@@ -165,20 +165,21 @@ public class PedidoService implements IPedidoService {
 	@Override
 	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException {
 		try {
-			Optional<Pedido> pedidOptional = pedidoRepository.findByIdClienteAndIsActiveTrue(idCliente);
+			List<Pedido> pedidoList = pedidoRepository.findByIdClienteAndIsActiveTrue(idCliente).stream()
+					.filter(pedido -> pedido.getIsActive() != null).toList();
 
-			if (pedidOptional.isEmpty() || pedidOptional.get().getIsActive() == null) {
-				log.error(PedidoConstantes.NOT_FOUND_LOG);
-				throw new NotFoundException(PedidoConstantes.NOT_FOUND_MSG);
+			if (pedidoList.isEmpty()) {
+				log.error(PedidoConstantes.CLIENTE_IF_NOT_FOUND_LOG);
+				throw new NotFoundException(PedidoConstantes.CLIENTE_ID_NOT_FOUND_MSG);
 			} else {
-				Pedido pedido = pedidOptional.get();
-				List<PedidoDTO> pedidoDTOs = Stream.of(pedido).map(p -> {
+				List<PedidoDTO> pedidoDTOs = pedidoList.stream().map(pedido -> {
 					return mapperRead.map(pedido);
 				}).toList();
 				PedidoResponse pedidoResponse = new PedidoResponse();
 				pedidoResponse.setMensaje(PedidoConstantes.SUCCESS_MESSAGE);
 				pedidoResponse.setCodigo(200);
 				pedidoResponse.setPedidos(pedidoDTOs);
+				log.info(PedidoConstantes.SUCCESS_LOG);
 				return pedidoResponse;
 			}
 
@@ -189,15 +190,56 @@ public class PedidoService implements IPedidoService {
 	}
 
 	@Override
-	public PedidoResponse readByemailCliente(String emailCliente) {
-		// TODO Pedido By email de cliente
-		return null;
+	public PedidoResponse readByemailCliente(String emailCliente) throws NotFoundException {
+		try {
+			List<Pedido> pedidoList = pedidoRepository.findByEmailClienteAndIsActiveTrue(emailCliente).stream()
+					.filter(pedido -> pedido.getIsActive() != null).toList();
+
+			if (pedidoList.isEmpty()) {
+				log.error(PedidoConstantes.EMAIL_CLIENTE_NOT_FOUND_LOG);
+				throw new NotFoundException(PedidoConstantes.EMAIL_CLIENTE_NOT_FOUND_MSG);
+			} else {
+				List<PedidoDTO> pedidoDTOs = pedidoList.stream().map(pedido -> {
+					return mapperRead.map(pedido);
+				}).toList();
+				PedidoResponse pedidoResponse = new PedidoResponse();
+				pedidoResponse.setMensaje(PedidoConstantes.SUCCESS_MESSAGE);
+				pedidoResponse.setCodigo(200);
+				pedidoResponse.setPedidos(pedidoDTOs);
+				log.info(PedidoConstantes.SUCCESS_LOG);
+				return pedidoResponse;
+			}
+		} catch (ServerErrorException e) {
+			log.error(PedidoConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 	@Override
-	public PedidoResponse readByFechaCreacion(LocalDate fechaCreacion) {
-		// TODO Pedido By fecha de creacion del pedido
-		return null;
+	public PedidoResponse readByFechaCreacion(LocalDate fechaCreacion) throws NotFoundException {
+		try {
+			List<Pedido> pedidoList = pedidoRepository.findByFechaCreacionAndIsActiveTrue(fechaCreacion).stream()
+					.filter(pedido -> pedido.getIsActive() != null && pedido.getFechaCreacion() != null).toList();
+
+			if (pedidoList.isEmpty()) {
+				log.error(PedidoConstantes.DATE_NOT_FOUND_LOG);
+				throw new NotFoundException(PedidoConstantes.DATE_NOT_FOUND_MSG);
+			} else {
+				List<PedidoDTO> pedidoDTOs = pedidoList.stream().map(pedido -> {
+					return mapperRead.map(pedido);
+				}).toList();
+				PedidoResponse pedidoResponse = new PedidoResponse();
+				pedidoResponse.setMensaje(PedidoConstantes.SUCCESS_MESSAGE);
+				pedidoResponse.setCodigo(200);
+				pedidoResponse.setPedidos(pedidoDTOs);
+				log.info(PedidoConstantes.SUCCESS_LOG);
+				return pedidoResponse;
+			}
+
+		} catch (ServerErrorException e) {
+			log.error(PedidoConstantes.SERVER_ERROR_LOG);
+			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
+		}
 	}
 
 }

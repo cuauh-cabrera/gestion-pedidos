@@ -21,8 +21,8 @@ public interface IPedidoService {
 	
 	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException;
 	
-	public PedidoResponse readByemailCliente(String emailCliente);
+	public PedidoResponse readByemailCliente(String emailCliente) throws NotFoundException;
 	
-	public PedidoResponse readByFechaCreacion(LocalDate fechaCreacion);
+	public PedidoResponse readByFechaCreacion(LocalDate fechaCreacion) throws NotFoundException;
 
 }
