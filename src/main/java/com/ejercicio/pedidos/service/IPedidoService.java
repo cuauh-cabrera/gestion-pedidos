@@ -2,6 +2,7 @@ package com.ejercicio.pedidos.service;
 
 import java.time.LocalDate;
 
+import com.ejercicio.pedidos.entity.Cliente;
 import com.ejercicio.pedidos.exceptions.NoContentException;
 import com.ejercicio.pedidos.exceptions.NotFoundException;
 import com.ejercicio.pedidos.model.PedidoDTO;
@@ -19,7 +20,7 @@ public interface IPedidoService {
 	
 	public PedidoResponseSave deleteById(Long id) throws NotFoundException;
 	
-	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException;
+	public PedidoResponse readByIdCliente(Cliente idCliente) throws NotFoundException;
 	
 	public PedidoResponse readByemailCliente(String emailCliente) throws NotFoundException;
 	

@@ -12,6 +12,6 @@ public class ClienteDTO {
 	private String nombreCliente;
 	private String apellidoPaterno;
 	private String apellidoMaterno;
-	private String emailUsuario;
+	private String emailCliente;
 	private String direccionEnvio;
 }

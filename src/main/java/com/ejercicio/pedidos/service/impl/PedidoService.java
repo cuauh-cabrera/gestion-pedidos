@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
+import com.ejercicio.pedidos.entity.Cliente;
 import com.ejercicio.pedidos.entity.Pedido;
 import com.ejercicio.pedidos.exceptions.NoContentException;
 import com.ejercicio.pedidos.exceptions.NotFoundException;
@@ -22,6 +23,22 @@ import com.ejercicio.pedidos.utils.PedidoConstantes;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Servicio que implementa la lógica de negocio para la gestión de Pedidos.
+ * Proporciona operaciones CRUD y búsquedas específicas para la entidad Pedido,
+ * incluyendo búsquedas por cliente, email y fecha de creación.
+ *
+ * <p>Esta clase maneja el mapeo entre entidades y DTOs, así como la gestión
+ * de estados activos/inactivos para implementar borrado lógico.
+ *
+ * @author Cuau Cabrera
+ * @version 1.0
+ * @see PedidoRepository
+ * @see PedidoInToPedidoDTO
+ * @see PedidoDTOInToPedido
+ */
+
+
 @Service
 @Slf4j
 public class PedidoService implements IPedidoService {
@@ -30,6 +47,13 @@ public class PedidoService implements IPedidoService {
 	private final PedidoInToPedidoDTO mapperRead;
 	private final PedidoDTOInToPedido mapperSave;
 	
+	/**
+     * Constructor que inicializa las dependencias necesarias para el servicio.
+     *
+     * @param pedidoRepository repositorio para operaciones de base de datos
+     * @param mapperRead mapper para convertir de Pedido a PedidoDTO
+     * @param mapperSave mapper para convertir de PedidoDTO a Pedido
+     */
 	public PedidoService(PedidoRepository pedidoRepository, 
 			PedidoInToPedidoDTO mapperRead, 
 			PedidoDTOInToPedido mapperSave) {
@@ -37,7 +61,22 @@ public class PedidoService implements IPedidoService {
 		this.mapperRead = mapperRead;
 		this.mapperSave = mapperSave;
 	}
-
+	
+	/**
+     * Recupera todos los pedidos activos del sistema.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Obtiene todos los pedidos de la base de datos</li>
+     *   <li>Filtra solo los pedidos activos</li>
+     *   <li>Mapea las entidades a DTOs</li>
+     *   <li>Construye una respuesta con la lista de pedidos</li>
+     * </ul>
+     *
+     * @return PedidoResponse conteniendo la lista de pedidos activos
+     * @throws NoContentException si no se encuentran pedidos activos
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponse readAll() throws NoContentException {
 		try {
@@ -65,7 +104,23 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Busca un pedido específico por su ID.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Busca el pedido por ID en la base de datos</li>
+     *   <li>Verifica que el pedido exista y esté activo</li>
+     *   <li>Mapea la entidad a DTO</li>
+     *   <li>Construye la respuesta con el pedido encontrado</li>
+     * </ul>
+     *
+     * @param id identificador único del pedido a buscar
+     * @return PedidoResponse conteniendo la información del pedido
+     * @throws NotFoundException si el pedido no existe o está inactivo
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponse readById(Long id) throws NotFoundException {
 		try {
@@ -92,7 +147,21 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Crea un nuevo pedido en el sistema.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Convierte el DTO a entidad Pedido</li>
+     *   <li>Persiste el nuevo pedido en la base de datos</li>
+     *   <li>Construye la respuesta con la confirmación de creación</li>
+     * </ul>
+     *
+     * @param pedidoDTO datos del pedido a crear
+     * @return PedidoResponseSave conteniendo la confirmación de la creación
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponseSave insert(PedidoDTO pedidoDTO) {
 		try {
@@ -110,7 +179,24 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Actualiza un pedido existente.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Verifica que el pedido exista y esté activo</li>
+     *   <li>Actualiza los datos del pedido</li>
+     *   <li>Persiste los cambios en la base de datos</li>
+     *   <li>Construye la respuesta con la confirmación de actualización</li>
+     * </ul>
+     *
+     * @param id identificador único del pedido a actualizar
+     * @param pedidoDTO nuevos datos del pedido
+     * @return PedidoResponseSave conteniendo la confirmación de la actualización
+     * @throws NotFoundException si el pedido no existe o está inactivo
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponseSave update(Long id, PedidoDTO pedidoDTO) throws NotFoundException {
 		try {
@@ -135,7 +221,23 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Realiza un borrado lógico de un pedido.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Verifica que el pedido exista y esté activo</li>
+     *   <li>Marca el pedido como inactivo</li>
+     *   <li>Persiste el cambio en la base de datos</li>
+     *   <li>Construye la respuesta con la confirmación del borrado</li>
+     * </ul>
+     *
+     * @param id identificador único del pedido a eliminar
+     * @return PedidoResponseSave conteniendo la confirmación del borrado
+     * @throws NotFoundException si el pedido no existe o está inactivo
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponseSave deleteById(Long id) throws NotFoundException {
 		try {
@@ -161,9 +263,25 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	 /**
+     * Busca todos los pedidos asociados a un cliente específico.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Busca pedidos por ID de cliente</li>
+     *   <li>Filtra solo pedidos activos</li>
+     *   <li>Mapea las entidades a DTOs</li>
+     *   <li>Construye la respuesta con los pedidos encontrados</li>
+     * </ul>
+     *
+     * @param idCliente cliente cuyos pedidos se buscan
+     * @return PedidoResponse conteniendo la lista de pedidos del cliente
+     * @throws NotFoundException si no se encuentran pedidos para el cliente
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
-	public PedidoResponse readByIdCliente(Long idCliente) throws NotFoundException {
+	public PedidoResponse readByIdCliente(Cliente idCliente) throws NotFoundException {
 		try {
 			List<Pedido> pedidoList = pedidoRepository.findByIdClienteAndIsActiveTrue(idCliente).stream()
 					.filter(pedido -> pedido.getIsActive() != null).toList();
@@ -188,7 +306,23 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Busca todos los pedidos asociados a un email de cliente.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Busca pedidos por email del cliente</li>
+     *   <li>Filtra solo pedidos activos</li>
+     *   <li>Mapea las entidades a DTOs</li>
+     *   <li>Construye la respuesta con los pedidos encontrados</li>
+     * </ul>
+     *
+     * @param emailCliente email del cliente cuyos pedidos se buscan
+     * @return PedidoResponse conteniendo la lista de pedidos asociados al email
+     * @throws NotFoundException si no se encuentran pedidos para el email
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponse readByemailCliente(String emailCliente) throws NotFoundException {
 		try {
@@ -214,7 +348,23 @@ public class PedidoService implements IPedidoService {
 			throw new ServerErrorException(PedidoConstantes.SERVER_ERROR_MSG);
 		}
 	}
-
+	
+	/**
+     * Busca todos los pedidos creados en una fecha específica.
+     * 
+     * <p>El método realiza las siguientes operaciones:
+     * <ul>
+     *   <li>Busca pedidos por fecha de creación</li>
+     *   <li>Filtra solo pedidos activos</li>
+     *   <li>Mapea las entidades a DTOs</li>
+     *   <li>Construye la respuesta con los pedidos encontrados</li>
+     * </ul>
+     *
+     * @param fechaCreacion fecha de creación de los pedidos a buscar
+     * @return PedidoResponse conteniendo la lista de pedidos de la fecha
+     * @throws NotFoundException si no se encuentran pedidos para la fecha
+     * @throws ServerErrorException si ocurre un error en el servidor
+     */
 	@Override
 	public PedidoResponse readByFechaCreacion(LocalDate fechaCreacion) throws NotFoundException {
 		try {

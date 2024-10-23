@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ejercicio.pedidos.entity.Cliente;
 import com.ejercicio.pedidos.exceptions.NoContentException;
 import com.ejercicio.pedidos.exceptions.NotFoundException;
 import com.ejercicio.pedidos.model.PedidoDTO;
@@ -70,10 +71,11 @@ public class PedidoController {
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/pedidos/id_cliente")
-	public PedidoResponse readByIdCliente(@RequestParam Long idCliente) throws NotFoundException {
+	public PedidoResponse readByIdCliente(@RequestParam Cliente idCliente) throws NotFoundException {
 		return pedidoService.readByIdCliente(idCliente);
 	}
 	
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/pedidos/email")
 	public PedidoResponse readByEmailCliente(@RequestParam String emailCliente) throws NotFoundException {
 		return pedidoService.readByemailCliente(emailCliente);

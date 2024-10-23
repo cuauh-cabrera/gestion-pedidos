@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClienteResponseSave {
-	private String emailUsuario;
+	private String emailCliente;
 	private String mensaje;
 	private int codigo;
 }

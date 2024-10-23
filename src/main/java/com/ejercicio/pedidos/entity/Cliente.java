@@ -46,7 +46,7 @@ public class Cliente {
 	@NotNull(message = ClienteConstantes.REQUIRED_EMAIL)
 	@Email(message = ClienteConstantes.INVALID_EMAIL)
 	@Column(name = "email")
-	private String emailUsuario;
+	private String emailCliente;
 	
 	@NotNull(message = ClienteConstantes.REQUIRED_DIRECCION)
 	@Column(name = "direccion_envio")
