@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteResponseSave {
-	private String emailCliente;
-	private String mensaje;
+public class PedidoResponseSave {
+	private Long id;
 	private int codigo;
+	private String mensaje;
 }

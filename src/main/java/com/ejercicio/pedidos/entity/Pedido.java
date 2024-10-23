@@ -1,18 +1,20 @@
 package com.ejercicio.pedidos.entity;
 
 import java.time.LocalDate;
-
-import com.ejercicio.pedidos.utils.ClienteConstantes;
-
+import com.ejercicio.pedidos.utils.PedidoConstantes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,40 +26,44 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "pedido")
+public class Pedido {
 	
 	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = ClienteConstantes.REQUIRED_NOMBRE)
-	@Column(name = "nombre")
-	private String nombreCliente;
+	@NotNull(message = PedidoConstantes.REQUIRED_CODIGO )
+	@Column(name = "codigo_producto")
+	private Long codidoProducto;
 	
-	@NotNull(message = ClienteConstantes.REQUIRED_APELLIDO)
-	@Column(name = "apellido_paterno")
-	private String apellidoPaterno;
-	
-	@Column(name = "apellido_materno")
-	private String apellidoMaterno;
-	
-	@NotNull(message = ClienteConstantes.REQUIRED_EMAIL)
-	@Email(message = ClienteConstantes.INVALID_EMAIL)
-	@Column(name = "email")
+	@NotNull(message = PedidoConstantes.REQUIRED_EMAIL)
+	@Column(name = "email_cliente")
 	private String emailCliente;
 	
-	@NotNull(message = ClienteConstantes.REQUIRED_DIRECCION)
-	@Column(name = "direccion_envio")
-	private String direccionEnvio;
+	@NotNull(message = PedidoConstantes.REQUIRED_ID_CLIENTE)
+	@ManyToOne(fetch =  FetchType.LAZY)
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id")
+	private Cliente idCliente;
+	
+	
+	@NotNull(message = PedidoConstantes.REQUIRED_CANTIDAD)
+	@Column(name = "cantidad")
+	private int cantidad;
+	
+	@NotNull(message = PedidoConstantes.REQUIRED_PRECIO)
+	@Column(name = "precio")
+	private Double precio;
 	
 	@NotNull
 	@Column(name = "fecha_creacion",updatable = false)
+	@Temporal(TemporalType.DATE)
 	private LocalDate fechaCreacion;
 	
 	@NotNull
 	@Column(name = "fecha_modificacion")
+	@Temporal(TemporalType.DATE)
 	private LocalDate fechaModificacion;
 	
 	@NotNull
@@ -66,7 +72,7 @@ public class Cliente {
 	
 	@PrePersist
 	private void onCreate() {
-		this.fechaCreacion=LocalDate.now();
+		this.fechaCreacion = LocalDate.now();
 		this.fechaModificacion = LocalDate.now();
 	}
 	
@@ -74,11 +80,5 @@ public class Cliente {
 	private void onUpdate() {
 		this.fechaModificacion = LocalDate.now();
 	}
-
-
 	
-	
-
-	
-
 }

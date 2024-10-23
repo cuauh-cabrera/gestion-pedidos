@@ -9,5 +9,5 @@ import com.ejercicio.pedidos.entity.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-	Optional<Cliente> findClienteByEmailUsuarioAndIsActiveTrue(String email);
+	Optional<Cliente> findClienteByEmailClienteAndIsActiveTrue(String email);
 }
